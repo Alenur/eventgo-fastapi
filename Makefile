@@ -21,7 +21,7 @@ else
 MESSAGE = "Done"
 endif
 
-APPLICATION_NAME = schemas
+APPLICATION_NAME = eventgo
 APPLICATION_HOST = 127.0.0.1
 APPLICATION_PORT = 8000
 TEST = poetry run python -m pytest --log-level=debug --showlocals --verbose
