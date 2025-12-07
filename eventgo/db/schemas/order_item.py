@@ -1,14 +1,14 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
+
+from eventgo.utils.enums import TicketType
 
 
 class OrderItemBaseSchema(BaseModel):
     order_id: UUID
-    available_ticket_id: UUID
-    quantity: int
-    final_price: float
+    ticket_id: UUID
 
 
 class OrderItemSchema(OrderItemBaseSchema):
@@ -21,7 +21,22 @@ class OrderItemCreateSchema(OrderItemBaseSchema):
     pass
 
 
+class OrderItemInputSchema(BaseModel):
+    ticket_id: UUID
+    quantity: int
+
+
 class OrderItemUpdateSchema(BaseModel):
-    available_ticket_id: UUID | None = None
-    quantity: int | None = None
-    final_price: float | None = None
+    ticket_id: UUID | None = None
+
+
+class OrderItemDetailSchema(BaseModel):
+    ticket_id: UUID
+    name: TicketType
+    price: float
+    quantity: int
+    
+    @computed_field
+    @property
+    def total(self) -> float:
+        return self.price * self.quantity

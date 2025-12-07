@@ -9,10 +9,11 @@ from eventgo.utils.enums import TicketType
 
 if TYPE_CHECKING:
     from eventgo.db.models.event import Event
+    from eventgo.db.models.order_item import OrderItem
 
 
-class AvailableTicket(Base, TimeStampMixin):
-    __tablename__ = "available_ticket"
+class Ticket(Base, TimeStampMixin):
+    __tablename__ = "ticket"
 
     event_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("event.id"), nullable=False
@@ -23,6 +24,7 @@ class AvailableTicket(Base, TimeStampMixin):
     available_count: Mapped[int] = mapped_column(nullable=False)
 
     event: Mapped["Event"] = relationship(back_populates="tickets")
+    order_items: Mapped[list["OrderItem"]] = relationship(back_populates="ticket")
 
     def __repr__(self) -> str:
         attrs = ", ".join(

@@ -23,6 +23,12 @@ async def check_auth(request: Request, session=Depends(get_session)) -> UserSche
     return await AuthService(session).validate_token(access_token, TokenType.access)
 
 
+async def check_admin(user: UserSchema = Depends(check_auth)) -> UserSchema:
+    if not user.is_superuser:
+        raise UnauthorizedError("admin access required")
+    return user
+
+
 async def res_check_auth(
     request: Request, session=Depends(get_session)
 ) -> UserSchema | None:
@@ -33,4 +39,5 @@ async def res_check_auth(
 
 
 OAuth = Annotated[UserSchema, Depends(check_auth)]
+AdminOAuth = Annotated[UserSchema, Depends(check_admin)]
 UnstrictedOAuth = Annotated[UserSchema | None, Depends(res_check_auth)]

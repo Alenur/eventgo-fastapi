@@ -1,7 +1,7 @@
-__all__ = ("Base", "User", "Auth", "Event", "AvailableTicket", "Order", "OrderItem")
+__all__ = ("Base", "User", "Auth", "Event", "Ticket", "Order", "OrderItem")
 
 from eventgo.db.models.auth import Auth
-from eventgo.db.models.available_ticket import AvailableTicket
+from eventgo.db.models.ticket import Ticket
 from eventgo.db.models.base import Base
 from eventgo.db.models.event import Event
 from eventgo.db.models.order import Order

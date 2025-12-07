@@ -22,11 +22,3 @@ class EventRepository(SQLAlchemyRepository):
         )
         result = await self._session.execute(stmt)
         return list(result.scalars().all())
-    
-    async def get_event_tickets(
-        self, event_id
-    ):
-        event = await self.get_by_id(event_id)
-        if event is None:
-            return []
-        return event.available_tickets

@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Response, status, Query
 
 from eventgo.db.schemas.event import EventCreateSchema, EventSchema, EventUpdateSchema
-from eventgo.db.schemas.available_ticket import AvailableTicketSchema
+from eventgo.db.schemas.ticket import TicketSchema
 from eventgo.endpoints.dependencies import OAuth, get_session
 from eventgo.services.event import EventService
 
@@ -33,7 +33,7 @@ async def get_event_by_id(
 
 
 @router.get(
-    "/{id}/tickets", response_model=list[AvailableTicketSchema], status_code=status.HTTP_200_OK
+    "/{id}/tickets", response_model=list[TicketSchema], status_code=status.HTTP_200_OK
 )
 async def get_event_tickets(
     id: UUID,

@@ -8,6 +8,7 @@ from eventgo.db.models.base import Base, TimeStampMixin
 
 if TYPE_CHECKING:
     from eventgo.db.models.order import Order
+    from eventgo.db.models.ticket import Ticket
 
 
 class OrderItem(Base, TimeStampMixin):
@@ -16,13 +17,14 @@ class OrderItem(Base, TimeStampMixin):
     order_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("order.id"), nullable=False
     )
-    available_ticket_id: Mapped[UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("available_ticket.id"), nullable=False
+    ticket_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("ticket.id"), nullable=False
     )
     quantity: Mapped[int] = mapped_column(nullable=False)
     final_price: Mapped[float] = mapped_column(nullable=False)
 
     order: Mapped["Order"] = relationship(back_populates="items")
+    ticket: Mapped["Ticket"] = relationship(back_populates="order_items")
 
     def __repr__(self) -> str:
         attrs = ", ".join(

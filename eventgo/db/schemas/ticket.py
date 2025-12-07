@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from eventgo.utils.enums import TicketType
 
 
-class AvailableTicketBaseSchema(BaseModel):
+class TicketBaseSchema(BaseModel):
     event_id: UUID
     type: TicketType
     price: float
@@ -14,17 +14,20 @@ class AvailableTicketBaseSchema(BaseModel):
     available_count: int
 
 
-class AvailableTicketSchema(AvailableTicketBaseSchema):
+class TicketSchema(TicketBaseSchema):
     id: UUID
     created_at: datetime
     updated_at: datetime
 
 
-class AvailableTicketCreateSchema(AvailableTicketBaseSchema):
-    pass
+class TicketCreateSchema(BaseModel):
+    type: TicketType
+    price: float
+    total_count: int
+    available_count: int
 
 
-class AvailableTicketUpdateSchema(BaseModel):
+class TicketUpdateSchema(BaseModel):
     type: TicketType | None = None
     price: float | None = None
     total_count: int | None = None
